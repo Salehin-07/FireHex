@@ -12,10 +12,16 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dev-secret-key')
 DEBUG = False
 ALLOWED_HOSTS = [
     'firehex.onrender.com',
+    '.onrender.com',
     'localhost',
     'ar-sr.onrender.com',
     '*.onrender.com',
 ]
+CSRF_TRUSTED_ORIGINS = [
+    'https://firehex.onrender.com',
+    'https://ar-sr.onrender.com'
+]
+
 
 INSTALLED_APPS = [
     'jazzmin',
