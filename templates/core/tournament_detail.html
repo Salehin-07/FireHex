@@ -1,0 +1,292 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load pwa %}
+
+{% block title %}{{ object.title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/tournament_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb Navigation -->
+<div class="breadcrumb-section">
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="{% url 'core:tournament_list' %}" class="breadcrumb-link">
+                <i class="fas fa-arrow-left"></i> Back to Tournaments
+            </a>
+        </nav>
+    </div>
+</div>
+
+<!-- Tournament Header -->
+<section class="tournament-header">
+    <div class="container">
+        <div class="header-content">
+            <div class="header-badge-group">
+                <span class="game-badge-large">{{ object.game_name }}</span>
+                <span class="status-badge-large status-open">Registration Open</span>
+            </div>
+            <h1 class="tournament-title-large">{{ object.title }}</h1>
+            <div class="tournament-meta-bar">
+                <div class="meta-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>{{ object.start_datetime|date:"M d, Y" }}</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-clock"></i>
+                    <span>{{ object.start_datetime|date:"g:i A" }}</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-users"></i>
+                    <span>{{ join_request_count }}/{{ object.max_player_number }} Players</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content Area -->
+<section class="tournament-content-section">
+    <div class="container">
+        <div class="content-grid">
+            <!-- Left Column - Tournament Details -->
+            <div class="detail-column">
+                <!-- Tournament Description -->
+                <div class="detail-card">
+                    <div class="card-header-detail">
+                        <h2 class="card-title-detail">
+                            <i class="fas fa-info-circle"></i>
+                            Tournament Details
+                        </h2>
+                    </div>
+                    <div class="card-body-detail">
+                        <p class="tournament-description">{{ object.description }}</p>
+                    </div>
+                </div>
+
+                <!-- Tournament Information -->
+                <div class="detail-card">
+                    <div class="card-header-detail">
+                        <h2 class="card-title-detail">
+                            <i class="fas fa-list-ul"></i>
+                            Information
+                        </h2>
+                    </div>
+                    <div class="card-body-detail">
+                        <ul class="info-list">
+                            <li class="info-list-item">
+                                <span class="info-list-label">
+                                    <i class="fas fa-gamepad"></i>
+                                    Game
+                                </span>
+                                <span class="info-list-value">{{ object.game_name }}</span>
+                            </li>
+                            <li class="info-list-item">
+                                <span class="info-list-label">
+                                    <i class="fas fa-calendar-check"></i>
+                                    Start Date & Time
+                                </span>
+                                <span class="info-list-value">{{ object.start_datetime|date:'DATETIME_FORMAT' }}</span>
+                            </li>
+                            <li class="info-list-item">
+                                <span class="info-list-label">
+                                    <i class="fas fa-ticket-alt"></i>
+                                    Entry Fee
+                                </span>
+                                <span class="info-list-value entry-fee">{{ object.entry_fee }}</span>
+                            </li>
+                            <li class="info-list-item">
+                                <span class="info-list-label">
+                                    <i class="fas fa-users"></i>
+                                    Max Players
+                                </span>
+                                <span class="info-list-value">{{ object.max_player_number }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Prize Pool -->
+                <div class="detail-card prize-card">
+                    <div class="card-header-detail">
+                        <h2 class="card-title-detail">
+                            <i class="fas fa-trophy"></i>
+                            Prize Pool
+                        </h2>
+                    </div>
+                    <div class="card-body-detail">
+                        <div class="prizes-grid">
+                            <div class="prize-box prize-first-place">
+                                <div class="prize-icon">
+                                    <i class="fas fa-crown"></i>
+                                </div>
+                                <div class="prize-info">
+                                    <span class="prize-position">1st Place</span>
+                                    <span class="prize-amount">{{ object.prize_first }}</span>
+                                </div>
+                            </div>
+                            <div class="prize-box prize-second-place">
+                                <div class="prize-icon">
+                                    <i class="fas fa-medal"></i>
+                                </div>
+                                <div class="prize-info">
+                                    <span class="prize-position">2nd Place</span>
+                                    <span class="prize-amount">{{ object.prize_second }}</span>
+                                </div>
+                            </div>
+                            <div class="prize-box prize-third-place">
+                                <div class="prize-icon">
+                                    <i class="fas fa-award"></i>
+                                </div>
+                                <div class="prize-info">
+                                    <span class="prize-position">3rd Place</span>
+                                    <span class="prize-amount">{{ object.prize_third }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Credentials Section -->
+                <div class="detail-card credentials-card">
+                    <div class="card-header-detail">
+                        <h2 class="card-title-detail">
+                            <i class="fas fa-key"></i>
+                            Tournament Credentials
+                        </h2>
+                    </div>
+                    <div class="card-body-detail">
+                        {% if credentials_visible %}
+                            <div class="credentials-visible">
+                                <div class="credentials-alert alert-success">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Your credentials are now available</span>
+                                </div>
+                                <pre class="credentials-content">{{ object.credentials|linebreaksbr }}</pre>
+                            </div>
+                        {% else %}
+                            <div class="credentials-locked">
+                                <div class="credentials-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <h3 class="credentials-locked-title">Credentials Locked</h3>
+                                <p class="credentials-locked-text">
+                                    ID and Password will be visible after you pay and will be issued just before the match starts
+                                </p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Join/Sidebar -->
+            <aside class="sidebar-column">
+                {% if user.is_authenticated %}
+                    <!-- Join Tournament Card -->
+                    <div class="join-card">
+                        <div class="join-card-header">
+                            <h3 class="join-card-title">
+                                <i class="fas fa-user-plus"></i>
+                                Join Tournament
+                            </h3>
+                        </div>
+                        <div class="join-card-body">
+                            <form id="joinForm" method="post" action="{% url 'core:tournament_join' pk=object.pk %}">
+                                {% csrf_token %}
+                                
+                                <div class="form-group-detail">
+                                    <label class="form-label-detail">
+                                        <i class="fab fa-whatsapp"></i>
+                                        WhatsApp Number
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        name="whatsapp_number" 
+                                        class="form-input-detail" 
+                                        required 
+                                        pattern="\+?[0-9\-\s]{9,}" 
+                                        placeholder="+8801xxxxxxxxx"
+                                    >
+                                    <small class="form-hint">Include country code (e.g., +880)</small>
+                                </div>
+
+                                <div class="form-group-detail">
+                                    <label class="form-label-detail">
+                                        <i class="fas fa-link"></i>
+                                        Social Profile URL
+                                    </label>
+                                    <input 
+                                        type="url" 
+                                        name="social_profile_url" 
+                                        class="form-input-detail" 
+                                        required 
+                                        placeholder="https://facebook.com/username"
+                                    >
+                                    <small class="form-hint">Facebook or Instagram profile link</small>
+                                </div>
+
+                                <button type="submit" class="btn-join-submit">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Submit Application</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- My Applications Link -->
+                    <div class="sidebar-link-card">
+                        <a href="{% url 'core:my_applications' %}" class="sidebar-link">
+                            <i class="fas fa-file-alt"></i>
+                            <span>View My Applications</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                {% else %}
+                    <!-- Login Prompt Card -->
+                    <div class="login-prompt-card">
+                        <div class="login-icon">
+                            <i class="fas fa-user-lock"></i>
+                        </div>
+                        <h3 class="login-title">Login Required</h3>
+                        <p class="login-text">You need to be logged in to join this tournament</p>
+                        <a href="{% url 'accounts:login' %}?next={% url 'core:tournament_detail' pk=object.pk %}" class="btn-login">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Login to Join</span>
+                        </a>
+                    </div>
+                {% endif %}
+
+                <!-- Quick Info Card -->
+                <div class="quick-info-card">
+                    <h4 class="quick-info-title">Tournament Rules</h4>
+                    <ul class="quick-info-list">
+                        <li><i class="fas fa-check"></i> All players must join on time</li>
+                        <li><i class="fas fa-check"></i> Fair play is mandatory</li>
+                        <li><i class="fas fa-check"></i> Entry fee is non-refundable</li>
+                        <li><i class="fas fa-check"></i> Follow game-specific rules</li>
+                    </ul>
+                </div>
+
+                <!-- Help Card -->
+                <div class="help-card">
+                    <div class="help-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <h4 class="help-title">Need Help?</h4>
+                    <p class="help-text">Contact our support team if you have any questions</p>
+                    <a href="#" class="btn-help">
+                        <i class="fas fa-envelope"></i>
+                        Contact Support
+                    </a>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/tournament_detail.js' %}"></script>
+{% endblock %}

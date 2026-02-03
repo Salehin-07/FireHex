@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load pwa %}
+
+{% block title %}Login{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-login-container">
+  <div class="auth-login-card">
+    <div class="auth-login-header">
+      <div class="auth-login-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z" stroke="currentColor" stroke-width="2"/>
+          <path d="M20 21V19C20 16.7909 18.2091 15 16 15H8C5.79086 15 4 16.7909 4 19V21" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </div>
+      <h1 class="auth-login-title">Welcome Back</h1>
+      <p class="auth-login-subtitle">Login to your account to continue</p>
+    </div>
+
+    <form method="post" class="auth-login-form">
+      {% csrf_token %}
+      
+      {% if form.non_field_errors %}
+        <div class="auth-form-errors">
+          {% for error in form.non_field_errors %}
+            <div class="auth-error-message">
+              <span class="error-icon">⚠️</span>
+              {{ error }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="auth-form-fields">
+        {% for field in form %}
+          <div class="auth-form-group {% if field.errors %}has-error{% endif %}">
+          {% if field.name == "username" %}
+            <label for="{{ field.id_for_label }}" class="auth-form-label">
+              UID
+            </label>
+          {% else %}
+            <label for="{{ field.id_for_label }}" class="auth-form-label">
+              {{ field.label }}
+            </label>
+          {% endif %}
+            <div class="auth-input-container">
+              {{ field }}
+              {% if field.name == 'password' %}
+                <button type="button" class="auth-password-toggle" id="password-toggle">
+                  <span class="toggle-icon">👁️</span>
+                </button>
+              {% endif %}
+            </div>
+            {% if field.errors %}
+              <div class="auth-field-errors">
+                {% for error in field.errors %}
+                  <span class="auth-error-text">{{ error }}</span>
+                {% endfor %}
+              </div>
+            {% endif %}
+            {% if field.help_text %}
+              <div class="auth-field-help">{{ field.help_text }}</div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="auth-form-options">
+        <label class="auth-remember-me">
+          <input type="checkbox" name="remember_me" class="auth-checkbox">
+          <span class="auth-checkbox-custom"></span>
+          Remember me
+        </label>
+<!--         <a href="#" class="auth-forgot-password">Forgot password?</a> -->
+      </div>
+
+      <button type="submit" class="auth-login-btn" id="login-btn">
+        <span class="btn-loading-spinner" id="loading-spinner"></span>
+        <span class="btn-text">Login</span>
+      </button>
+    </form>
+
+    <div class="auth-login-footer">
+      <p class="auth-signup-link">
+        Don't have an account? <a href="{% url 'accounts:signup' %}" class="auth-link">Sign up here</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="auth-login-decoration">
+    <div class="decoration-shape shape-1"></div>
+    <div class="decoration-shape shape-2"></div>
+    <div class="decoration-shape shape-3"></div>
+    <div class="decoration-content">
+      <h2>Tournament Manager</h2>
+      <p>Professional tournament management system</p>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/login.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,9 @@
+Django
+dj-database-url
+django-jazzmin
+gunicorn
+whitenoise
+django-compressor
+django-pwa
+python-dotenv
+psycopg2

@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load pwa %}
+
+{% block title %}Tournaments{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/tournaments.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="tournaments-hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">Active Tournaments</h1>
+            <p class="hero-subtitle">Join competitive gaming tournaments and win amazing prizes</p>
+        </div>
+        
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <div class="filter-group">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchTournaments" class="filter-input" placeholder="Search tournaments...">
+            </div>
+            <div class="filter-group">
+                <select id="gameFilter" class="filter-select">
+                    <option value="">All Games</option>
+                    <option value="FreeFire">Free Fire</option>
+                    <option value="FC">FC</option>
+                    <option value="lol">League of Legends</option>
+                </select>
+            </div>
+<!--             <div class="filter-group">
+                <select id="statusFilter" class="filter-select">
+                    <option value="">All Status</option>
+                    <option value="upcoming">Upcoming</option>
+                    <option value="live">Live Now</option>
+                    <option value="registration">Open Registration</option>
+                </select>
+            </div> -->
+        </div>
+    </div>
+</section>
+
+<!-- Tournaments Grid -->
+<section class="tournaments-section">
+    <div class="container">
+        {% if object_list %}
+            <div class="tournaments-grid" id="tournamentsGrid">
+                {% for t in object_list %}
+                <article class="tournament-card" data-game="{{ t.game_name|lower }}" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:0|divisibleby:3|yesno:'0,100,200' }}">
+                    <!-- Card Header with Game Badge -->
+                    <div class="card-header">
+                        <span class="game-badge">{{ t.game_name }}</span>
+                        <span class="status-badge status-open">Open</span>
+                    </div>
+                    
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <h2 class="tournament-title">{{ t.title }}</h2>
+                        
+                        <!-- Tournament Info Grid -->
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <div class="info-content">
+                                    <span class="info-label">Start Date</span>
+                                    <span class="info-value">{{ t.start_datetime|date:"M d, Y" }}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <i class="fas fa-clock"></i>
+                                <div class="info-content">
+                                    <span class="info-label">Time</span>
+                                    <span class="info-value">{{ t.start_datetime|date:"g:i A" }}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <i class="fas fa-ticket-alt"></i>
+                                <div class="info-content">
+                                    <span class="info-label">Entry Fee</span>
+                                    <span class="info-value">{{ t.entry_fee }}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <i class="fas fa-users"></i>
+                                <div class="info-content">
+                                    <span class="info-label">Max Participants</span>
+                                    <span class="info-value">{{ t.max_player_number }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Prize Pool -->
+                        <div class="prize-pool">
+                            <div class="prize-header">
+                                <i class="fas fa-trophy"></i>
+                                <span>Prize Pool</span>
+                            </div>
+                            <div class="prizes">
+                                <div class="prize-item prize-first">
+                                    <span class="prize-position">1st</span>
+                                    <span class="prize-amount">{{ t.prize_first }}</span>
+                                </div>
+                                <div class="prize-item prize-second">
+                                    <span class="prize-position">2nd</span>
+                                    <span class="prize-amount">{{ t.prize_second }}</span>
+                                </div>
+                                <div class="prize-item prize-third">
+                                    <span class="prize-position">3rd</span>
+                                    <span class="prize-amount">{{ t.prize_third }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Card Footer -->
+                    <div class="card-footer">
+                        <a href="{% url 'core:tournament_detail' pk=t.pk %}" class="btn-tournament">
+                            <span>View Details</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- Empty State -->
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h2 class="empty-title">No Tournaments Available</h2>
+                <p class="empty-text">Check back soon for upcoming tournaments and competitions!</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Stats Section (Optional) -->
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-icon">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-number">{{ object_list|length }}</h3>
+                    <p class="stat-label">Active Tournaments</p>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-number">1,250+</h3>
+                    <p class="stat-label">Total Players</p>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-number">$50K+</h3>
+                    <p class="stat-label">Prize Pool</p>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">
+                    <i class="fas fa-flag-checkered"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-number">340+</h3>
+                    <p class="stat-label">Completed</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/tournaments.js' %}"></script>
+{% endblock %}

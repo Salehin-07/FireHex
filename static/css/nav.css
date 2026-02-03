@@ -1,0 +1,240 @@
+/* ============================================
+   MODERN FLOATING NAVBAR – PREMIUM EDITION
+============================================ */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: var(--nav-height);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  z-index: 1000;
+  transition: all 0.4s ease;
+}
+
+.navbar.scrolled {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: var(--shadow-md);
+  transform: translateY(0);
+}
+
+/* Container */
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+/* Logo */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--text-dark);
+  transition: color var(--transition-fast);
+}
+
+.nav-logo img {
+  height: 46px;
+  width: auto;
+  border-radius: 6px;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.nav-logo:hover img {
+  transform: scale(1.08);
+  filter: drop-shadow(0 4px 8px rgba(99, 102, 241, 0.2));
+}
+
+/* Menu */
+.nav-menu {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-menu li {
+  position: relative;
+}
+
+.nav-menu a {
+  color: var(--text-dark);
+  font-weight: 500;
+  transition: color 0.25s ease, transform 0.25s ease;
+  padding: 0.3rem 0;
+  display: inline-block;
+  position: relative;
+}
+
+.nav-menu a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: var(--primary-dark);
+  transition: width 0.3s ease;
+}
+
+.nav-menu a:hover::after,
+.nav-menu a.active::after {
+  width: 100%;
+}
+
+.nav-menu a:hover {
+  color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+/* Dropdown */
+.dropdown .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: var(--shadow-lg);
+  border-radius: 10px;
+  min-width: 180px;
+  padding: 0.6rem 0;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.dropdown-menu li {
+  padding: 0.4rem 1rem;
+  transition: background 0.25s ease;
+}
+
+.dropdown-menu li:hover {
+  background: var(--bg-light);
+}
+
+.dropdown-menu a {
+  display: block;
+  width: 100%;
+  color: var(--text-dark);
+  font-weight: 500;
+  transition: color var(--transition-fast);
+}
+
+.dropdown-menu a:hover {
+  color: var(--primary-dark);
+}
+
+/* CTA Button */
+.nav-btn {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  color: white !important;
+  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.2);
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(99, 102, 241, 0.3);
+}
+
+/* Hamburger Menu */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.7rem;
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.nav-toggle:hover {
+  transform: scale(1.1);
+}
+
+/* ============================
+   MOBILE MENU
+============================ */
+@media (max-width: 992px) {
+  .nav-menu {
+    position: fixed;
+    top: var(--nav-height);
+    right: -100%;
+    width: 70%;
+    height: calc(100vh - var(--nav-height));
+    background: rgba(255, 255, 255, 0.98);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2rem;
+    gap: 1.8rem;
+    box-shadow: var(--shadow-lg);
+    transition: right 0.4s ease;
+    overflow-y: auto;
+    backdrop-filter: blur(8px);
+  }
+
+  .nav-menu.open {
+    right: 0;
+  }
+
+  .nav-toggle {
+    display: block;
+  }
+
+  .nav-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .dropdown .dropdown-menu {
+    position: static;
+    background: none;
+    box-shadow: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .dropdown-menu li {
+    padding: 0.3rem 0;
+  }
+
+  .nav-menu a::after {
+    display: none;
+  }
+}
+
+/* ============================
+   ENTRY ANIMATION
+============================ */
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.navbar {
+  animation: slideIn 0.6s ease;
+}

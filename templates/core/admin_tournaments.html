@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load pwa %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin_tournaments.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="tournaments-admin-container">
+  <div class="tournaments-admin-header">
+    <h1 class="tournaments-admin-title">Tournaments (Admin)</h1>
+    <div class="tournaments-admin-stats">
+      <span class="tournaments-count" id="tournaments-count">{{ object_list|length }} tournaments</span>
+    </div>
+  </div>
+  
+  <div class="tournaments-admin-controls">
+    <div class="tournaments-search-container">
+      <input type="text" id="tournaments-search" class="tournaments-search-input" placeholder="Search tournaments by name...">
+      <span class="tournaments-search-icon">🔍</span>
+    </div>
+  </div>
+  
+  <div class="tournaments-list-container">
+    {% if object_list %}
+      <ul class="tournaments-list" id="tournaments-list">
+        {% for t in object_list %}
+          <li class="tournaments-list-item" data-name="{{ t.title|lower }}">
+            <div class="tournament-info">
+              <h3 class="tournament-title">{{ t.title }}</h3>
+              <a href="{% url 'core:credential_update' pk=t.pk %}" class="tournament-edit-btn">Edit credentials</a>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <div class="tournaments-empty-state">
+        <div class="tournaments-empty-icon">🏆</div>
+        <h3 class="tournaments-empty-title">No tournaments yet</h3>
+        <p class="tournaments-empty-description">Get started by creating your first tournament.</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/admin_tournaments.js' %}"></script>
+{% endblock %}

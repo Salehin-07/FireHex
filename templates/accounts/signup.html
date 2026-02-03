@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load pwa %}
+
+{% block title %}Sign up{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/signup.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-signup-container">
+  <div class="auth-signup-card">
+    <div class="auth-signup-header">
+      <div class="auth-signup-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="2"/>
+          <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </div>
+      <h1 class="auth-signup-title">Create Account</h1>
+      <p class="auth-signup-subtitle">Join us to start managing tournaments</p>
+    </div>
+
+    <form method="post" class="auth-signup-form">
+      {% csrf_token %}
+      
+      {% if form.non_field_errors %}
+        <div class="auth-form-errors">
+          {% for error in form.non_field_errors %}
+            <div class="auth-error-message">
+              <span class="error-icon">⚠️</span>
+              {{ error }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="auth-form-fields">
+        {% for field in form %}
+          <div class="auth-form-group {% if field.errors %}has-error{% endif %}">
+            <label for="{{ field.id_for_label }}" class="auth-form-label">
+              {{ field.label }}
+              {% if field.field.required %}
+                <span class="required-asterisk">*</span>
+              {% endif %}
+            </label>
+            <div class="auth-input-container">
+              {{ field }}
+              {% if field.name == 'password1' or field.name == 'password2' %}
+                <button type="button" class="auth-password-toggle" data-target="{{ field.id_for_label }}">
+                  <span class="toggle-icon">👁️</span>
+                </button>
+              {% endif %}
+            </div>
+            {% if field.errors %}
+              <div class="auth-field-errors">
+                {% for error in field.errors %}
+                  <span class="auth-error-text">{{ error }}</span>
+                {% endfor %}
+              </div>
+            {% endif %}
+            {% if field.help_text %}
+              <div class="auth-field-help">{{ field.help_text }}</div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="auth-form-options">
+        <label class="auth-terms-agree">
+          <input type="checkbox" name="terms_agree" class="auth-checkbox" required>
+          <span class="auth-checkbox-custom"></span>
+          I agree to the <a href="#" class="auth-terms-link">Terms of Service</a> and <a href="#" class="auth-terms-link">Privacy Policy</a>
+        </label>
+      </div>
+
+      <button type="submit" class="auth-signup-btn" id="signup-btn">
+        <span class="btn-loading-spinner" id="loading-spinner"></span>
+        <span class="btn-text">Create Account</span>
+      </button>
+    </form>
+
+    <div class="auth-signup-footer">
+      <p class="auth-login-link">
+        Already have an account? <a href="{% url 'accounts:login' %}" class="auth-link">Login here</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="auth-signup-decoration">
+    <div class="decoration-shape shape-1"></div>
+    <div class="decoration-shape shape-2"></div>
+    <div class="decoration-shape shape-3"></div>
+    <div class="decoration-content">
+      <h2>Tournament Manager</h2>
+      <p>Start your journey with us today</p>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/signup.js' %}"></script>
+{% endblock %}

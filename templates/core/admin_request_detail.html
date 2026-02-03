@@ -1,0 +1,335 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load pwa %}
+
+{% block title %}Request Detail - Admin{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin_request_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb -->
+<section class="breadcrumb-section-admin">
+    <div class="container">
+        <nav class="breadcrumb-admin">
+            <a href="{% url 'core:admin_requests' %}" class="breadcrumb-link-admin">
+                <i class="fas fa-arrow-left"></i> Back to Requests
+            </a>
+        </nav>
+    </div>
+</section>
+
+<!-- Request Header -->
+<section class="request-detail-header">
+    <div class="container">
+        <div class="header-content-detail">
+            <div class="header-left-detail">
+                <h1 class="request-title-detail">Join Request Details</h1>
+                <div class="tournament-badge-detail">
+                    <i class="fas fa-trophy"></i>
+                    {{ object.tournament.title }}
+                </div>
+            </div>
+            <div class="header-right-detail">
+                {% if object.paid %}
+                    <span class="status-badge-large status-paid-large">
+                        <i class="fas fa-check-circle"></i> Paid
+                    </span>
+                {% else %}
+                    <span class="status-badge-large status-unpaid-large">
+                        <i class="fas fa-clock"></i> Pending Payment
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<section class="request-detail-content">
+    <div class="container">
+        <div class="detail-grid-admin">
+            <!-- Left Column - Request Information -->
+            <div class="detail-main-col">
+                <!-- User Information Card -->
+                <div class="detail-card-admin">
+                    <div class="card-header-admin-detail">
+                        <h2 class="card-title-admin-detail">
+                            <i class="fas fa-user-circle"></i>
+                            User Information
+                        </h2>
+                    </div>
+                    <div class="card-body-admin-detail">
+                        <div class="user-profile-section">
+                            <div class="user-avatar-large">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="user-details-large">
+                                <p class="user-email-large">{{ object.user.first_name }} {{ object.user.last_name  }}</p>
+                                <h3 class="user-name-large">{{ object.user.username }}</h3>
+                                <div class="user-meta">
+                                    <span class="meta-item-detail">
+                                        <i class="fas fa-calendar-plus"></i>
+                                        Joined {{ object.user.date_joined|date:"M d, Y" }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Information Card -->
+                <div class="detail-card-admin">
+                    <div class="card-header-admin-detail">
+                        <h2 class="card-title-admin-detail">
+                            <i class="fas fa-address-book"></i>
+                            Contact Information
+                        </h2>
+                    </div>
+                    <div class="card-body-admin-detail">
+                        <div class="contact-items">
+                            <div class="contact-item-detail">
+                                <div class="contact-icon-wrapper">
+                                    <i class="fab fa-whatsapp"></i>
+                                </div>
+                                <div class="contact-info-detail">
+                                    <span class="contact-label-detail">WhatsApp Number</span>
+                                    <a href="https://wa.me/{{ object.whatsapp_number }}" target="_blank" class="contact-value-detail whatsapp-value">
+                                        {{ object.whatsapp_number }}
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                                <button class="btn-copy-detail" data-copy="{{ object.whatsapp_number }}">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+
+                            <div class="contact-item-detail">
+                                <div class="contact-icon-wrapper">
+                                    <i class="fas fa-link"></i>
+                                </div>
+                                <div class="contact-info-detail">
+                                    <span class="contact-label-detail">Social Profile</span>
+                                    <a href="{{ object.social_profile_url }}" target="_blank" class="contact-value-detail profile-value">
+                                        View Profile
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                                <button class="btn-copy-detail" data-copy="{{ object.social_profile_url }}">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tournament Information Card -->
+                <div class="detail-card-admin">
+                    <div class="card-header-admin-detail">
+                        <h2 class="card-title-admin-detail">
+                            <i class="fas fa-trophy"></i>
+                            Tournament Details
+                        </h2>
+                    </div>
+                    <div class="card-body-admin-detail">
+                        <div class="tournament-info-grid">
+                            <div class="info-box-detail">
+                                <span class="info-label-detail">Tournament Name</span>
+                                <span class="info-value-detail">{{ object.tournament.title }}</span>
+                            </div>
+                            <div class="info-box-detail">
+                                <span class="info-label-detail">Game</span>
+                                <span class="info-value-detail">{{ object.tournament.game_name }}</span>
+                            </div>
+                            <div class="info-box-detail">
+                                <span class="info-label-detail">Start Date</span>
+                                <span class="info-value-detail">{{ object.tournament.start_datetime|date:"M d, Y • g:i A" }}</span>
+                            </div>
+                            <div class="info-box-detail">
+                                <span class="info-label-detail">Entry Fee</span>
+                                <span class="info-value-detail entry-fee-value">{{ object.tournament.entry_fee }}</span>
+                            </div>
+                        </div>
+                        <a href="{% url 'core:tournament_detail' pk=object.tournament.pk %}" class="btn-view-tournament-detail">
+                            <i class="fas fa-eye"></i>
+                            View Full Tournament
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Notes Section -->
+                <!--<div class="detail-card-admin">-->
+                <!--    <div class="card-header-admin-detail">-->
+                <!--        <h2 class="card-title-admin-detail">-->
+                <!--            <i class="fas fa-sticky-note"></i>-->
+                <!--            Admin Notes-->
+                <!--        </h2>-->
+                <!--    </div>-->
+                <!--    <div class="card-body-admin-detail">-->
+                <!--        <form method="post" id="notesForm">-->
+                <!--            {% csrf_token %}-->
+                <!--            <div class="form-group-admin-detail">-->
+                <!--                <label class="form-label-admin-detail">-->
+                <!--                    <i class="fas fa-pen"></i>-->
+                <!--                    Add Note-->
+                <!--                </label>-->
+                <!--                <textarea -->
+                <!--                    name="note" -->
+                <!--                    class="form-textarea-admin-detail" -->
+                <!--                    rows="4" -->
+                <!--                    placeholder="Add internal notes about this request..."-->
+                <!--                ></textarea>-->
+                <!--            </div>-->
+                <!--            <button type="submit" name="action" value="add_note" class="btn-save-note">-->
+                <!--                <i class="fas fa-save"></i>-->
+                <!--                Save Note-->
+                <!--            </button>-->
+                <!--        </form>-->
+                        
+                        <!-- Existing Notes Display -->
+<!--                         <div class="notes-list">
+                            <div class="note-item">
+                                <div class="note-header">
+                                    <span class="note-author">Admin</span>
+                                    <span class="note-date">2 days ago</span>
+                                </div>
+                                <p class="note-content">User confirmed payment via bKash. Transaction ID: TXN123456</p>
+                            </div>
+                            <div class="note-item">
+                                <div class="note-header">
+                                    <span class="note-author">Admin</span>
+                                    <span class="note-date">3 days ago</span>
+                                </div>
+                                <p class="note-content">Initial application received. Waiting for payment confirmation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- Right Column - Actions & Status -->
+            <aside class="detail-sidebar-col">
+                <!-- Payment Status Card -->
+                <div class="sidebar-card-admin-detail">
+                    <div class="sidebar-card-header-detail">
+                        <h3 class="sidebar-card-title-detail">
+                            <i class="fas fa-credit-card"></i>
+                            Payment Status
+                        </h3>
+                    </div>
+                    <div class="sidebar-card-body-detail">
+                        <div class="payment-status-display">
+                            {% if object.paid %}
+                                <div class="status-icon-large status-paid-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <h4 class="status-title-large">Payment Confirmed</h4>
+                                <p class="status-text-large">This request has been marked as paid</p>
+                            {% else %}
+                                <div class="status-icon-large status-unpaid-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <h4 class="status-title-large">Payment Pending</h4>
+                                <p class="status-text-large">Waiting for payment confirmation</p>
+                            {% endif %}
+                        </div>
+                        
+                        <form method="post" id="paymentForm" class="payment-form-detail">
+                            {% csrf_token %}
+                            {% if not object.paid %}
+                                <button type="submit" name="action" value="mark_paid" class="btn-payment-action btn-mark-paid-detail">
+                                    <i class="fas fa-check-circle"></i>
+                                    Mark as Paid
+                                </button>
+                            {% else %}
+                                <button type="submit" name="action" value="mark_unpaid" class="btn-payment-action btn-mark-unpaid-detail">
+                                    <i class="fas fa-undo"></i>
+                                    Mark as Unpaid
+                                </button>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Quick Actions Card -->
+                <div class="sidebar-card-admin-detail">
+                    <div class="sidebar-card-header-detail">
+                        <h3 class="sidebar-card-title-detail">
+                            <i class="fas fa-bolt"></i>
+                            Quick Actions
+                        </h3>
+                    </div>
+                    <div class="sidebar-card-body-detail">
+<!--                         <button class="quick-action-btn-detail" id="sendEmailBtn">
+                            <i class="fas fa-envelope"></i>
+                            <span>Send Email</span>
+                        </button> -->
+                        <button class="quick-action-btn-detail" id="sendWhatsAppBtn">
+                            <i class="fab fa-whatsapp"></i>
+                            <span>Message on WhatsApp</span>
+                        </button>
+<!--                         <button class="quick-action-btn-detail" id="viewHistoryBtn">
+                            <i class="fas fa-history"></i>
+                            <span>View History</span>
+                        </button>
+                        <button class="quick-action-btn-detail danger-action" id="deleteRequestBtn">
+                            <i class="fas fa-trash"></i>
+                            <span>Delete Request</span>
+                        </button> -->
+                    </div>
+                </div>
+
+                <!-- Request Timeline -->
+                <div class="sidebar-card-admin-detail">
+                    <div class="sidebar-card-header-detail">
+                        <h3 class="sidebar-card-title-detail">
+                            <i class="fas fa-clock"></i>
+                            Request Timeline
+                        </h3>
+                    </div>
+                    <div class="sidebar-card-body-detail">
+                        <div class="timeline-admin">
+                            <div class="timeline-item-admin">
+                                <div class="timeline-icon-admin timeline-success">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="timeline-content-admin">
+                                    <p class="timeline-title-admin">Request Submitted</p>
+                                    <span class="timeline-time-admin">{{ object.created_at|date:"M d, Y • g:i A" }}</span>
+                                </div>
+                            </div>
+                            {% if object.paid %}
+                            <div class="timeline-item-admin">
+                                <div class="timeline-icon-admin timeline-success">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </div>
+                                <div class="timeline-content-admin">
+                                    <p class="timeline-title-admin">Payment Confirmed</p>
+                                    <span class="timeline-time-admin">{{ object.updated_at|date:"M d, Y • g:i A" }}</span>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Card -->
+                <div class="sidebar-card-admin-detail info-card-detail">
+                    <div class="sidebar-card-body-detail">
+                        <div class="info-icon-detail">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <h4 class="info-title-detail">Need Help?</h4>
+                        <p class="info-text-detail">Contact support if you have any questions about this request.</p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/admin_request_detail.js' %}"></script>
+{% endblock %}

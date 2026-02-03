@@ -1,0 +1,187 @@
+{% load static %}
+
+<!-- ============================================
+     FOOTER SECTION
+     ============================================ -->
+
+<footer class="footer" id="mainFooter">
+    <!-- Main Footer Content -->
+    <div class="footer-main">
+        <div class="footer-container">
+            <div class="footer-grid">
+                
+                <!-- Company Info Column -->
+                <div class="footer-col footer-about">
+                    <div class="footer-logo">
+                        <img src="{% static 'img/logo.png' %}" alt="AR Logo" class="footer-logo-img">
+                        <span class="footer-logo-text">AR</span>
+                    </div>
+                    <p class="footer-description">
+                        Crafting exceptional digital experiences through innovative web design and development. 
+                        Transform your vision into reality with our expert team.
+                    </p>
+                    
+                    <!-- Social Media Links -->
+                    <div class="footer-social">
+                        <a href="https://facebook.com" class="social-link" aria-label="Facebook" target="_blank" rel="noopener">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://twitter.com" class="social-link" aria-label="Twitter" target="_blank" rel="noopener">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://instagram.com" class="social-link" aria-label="Instagram" target="_blank" rel="noopener">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://linkedin.com" class="social-link" aria-label="LinkedIn" target="_blank" rel="noopener">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://github.com" class="social-link" aria-label="GitHub" target="_blank" rel="noopener">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://youtube.com" class="social-link" aria-label="YouTube" target="_blank" rel="noopener">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links Column -->
+                <div class="footer-col">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'core:tournament_list' %}" class="footer-link">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Home</span>
+                        </a></li>
+                    </ul>
+                </div>
+                
+                <!-- Services Column -->
+<!--                 <div class="footer-col">
+                    <h3 class="footer-title">Our Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="/services/web-design/" class="footer-link">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Web Design</span>
+                        </a></li>
+                        <li><a href="/services/web-development/" class="footer-link">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Web Development</span>
+                        </a></li>
+                        <li><a href="/services/e-commerce/" class="footer-link">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>E-Commerce Solutions</span>
+                        </a></li>
+                        <li><a href="/services/seo/" class="footer-link">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>SEO Optimization</span>
+                        </a></li>
+                        <li><a href="/services/maintenance/" class="footer-link">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Website Maintenance</span>
+                        </a></li>
+                        <li><a href="/services/consulting/" class="footer-link">
+                            <i class="fas fa-chevron-right"></i>
+                            <span>IT Consulting</span>
+                        </a></li>
+                    </ul>
+                </div>
+                 -->
+                <!-- Contact Info Column -->
+                <div class="footer-col">
+                    <h3 class="footer-title">Get In Touch</h3>
+                    <ul class="footer-contact">
+                        <li class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div class="contact-info">
+                                <span class="contact-label">Address</span>
+                                <span class="contact-text">123 Business Street, Suite 100<br>New York, NY 10001</span>
+                            </div>
+                        </li>
+                        <li class="contact-item">
+                            <i class="fas fa-phone-alt"></i>
+                            <div class="contact-info">
+                                <span class="contact-label">Phone</span>
+                                <a href="tel:+1234567890" class="contact-text">+1 (234) 567-890</a>
+                            </div>
+                        </li>
+                        <li class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div class="contact-info">
+                                <span class="contact-label">Email</span>
+                                <a href="mailto:info@yourcompany.com" class="contact-text">info@yourcompany.com</a>
+                            </div>
+                        </li>
+                        <li class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <div class="contact-info">
+                                <span class="contact-label">Working Hours</span>
+                                <span class="contact-text">Mon - Fri: 9:00 AM - 6:00 PM</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Newsletter Column -->
+                <div class="footer-col footer-newsletter">
+                    <h3 class="footer-title">Newsletter</h3>
+                    <p class="newsletter-text">
+                        Subscribe to our newsletter for the latest updates, tips, and exclusive offers.
+                    </p>
+
+                    <!-- Trust Badges -->
+<!--                     <div class="footer-badges">
+                        <div class="badge-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Secure</span>
+                        </div>
+                        <div class="badge-item">
+                            <i class="fas fa-award"></i>
+                            <span>Certified</span>
+                        </div>
+                        <div class="badge-item">
+                            <i class="fas fa-headset"></i>
+                            <span>24/7 Support</span>
+                        </div>
+                    </div>
+                </div>
+                 -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer Bottom Bar -->
+    <div class="footer-bottom">
+        <div class="footer-container">
+            <div class="footer-bottom-content">
+                <!-- Copyright -->
+                <div class="footer-copyright">
+                    <p>
+                        &copy; <span id="currentYear"></span> 
+                        <strong>AR Studio</strong>. All rights reserved.
+                    </p>
+                </div>
+                
+                <!-- Legal Links -->
+                <div class="footer-legal">
+                    <a href="" class="legal-link">Privacy Policy</a>
+                    <span class="separator">|</span>
+                    <a href="" class="legal-link">Terms of Service</a>
+                    <span class="separator">|</span>
+                </div>
+                
+                <!-- Back to Top Button -->
+                <button class="back-to-top" id="backToTop" aria-label="Back to top">
+                    <i class="fas fa-arrow-up"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Decorative Wave -->
+    <div class="footer-wave">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0 C300,100 900,0 1200,50 L1200,0 L0,0 Z" fill="currentColor"></path>
+        </svg>
+    </div>
+</footer>
+

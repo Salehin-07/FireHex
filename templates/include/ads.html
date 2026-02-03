@@ -1,0 +1,64 @@
+{% load static %}
+
+<!-- Advertisement Popup Modal -->
+{% if active_ad %}
+<div class="arads-overlay" id="aradsWelcomeOverlay" data-ad-id="{{ active_ad.id }}">
+    <div class="arads-modal-container">
+        <div class="arads-modal-content">
+            <!-- Close Button -->
+            <button class="arads-close-btn" id="aradsCloseBtn" aria-label="Close advertisement">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <!-- Modal Body -->
+            <div class="arads-body {% if not active_ad.img_url and not active_ad.video_url %}arads-body-no-media{% endif %}">
+                <!-- Media Section (Image Only) -->
+                {% if active_ad.img_url %}
+                <div class="arads-media-section">
+                    <!-- Image Content -->
+                    <div class="arads-image-wrapper">
+                        <img src="{{ active_ad.img_url }}" alt="{{ active_ad.title }}" class="arads-ad-img">
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Content Section -->
+                <div class="arads-content-section">
+                    <div class="arads-promo-badge">
+                        <i class="fas fa-bullhorn"></i>
+                        <span>Advertisement</span>
+                    </div>
+                    
+                    <h2 class="arads-title">{{ active_ad.title }}</h2>
+                    
+                    <div class="arads-description">
+                        {{ active_ad.description|linebreaks }}
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="arads-action-section">
+                        <button class="arads-btn arads-btn-secondary" id="aradsCloseAd">
+                            <i class="fas fa-times-circle"></i>
+                            Close
+                        </button>
+                    </div>
+                    
+                    <!-- Don't Show Again Option -->
+                    <div class="arads-checkbox-section">
+                        <label class="arads-checkbox-label">
+                            <input type="checkbox" id="aradsNeverShowAgain" class="arads-checkbox-input">
+                            <span class="arads-checkbox-text">Don't show this ad again</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Load Ads CSS -->
+<link rel="stylesheet" href="{% static 'css/ads.css' %}">
+
+<!-- Load Ads JavaScript -->
+<script src="{% static 'js/ads.js' %}"></script>

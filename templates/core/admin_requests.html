@@ -1,0 +1,238 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load pwa %}
+
+{% block title %}Join Requests - Admin{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin_requests.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Admin Header -->
+<section class="admin-header-section">
+    <div class="container">
+        <div class="admin-header-content">
+            <div class="admin-icon-wrapper">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <div class="admin-text">
+                <h1 class="admin-page-title">Join Requests Management</h1>
+                <p class="admin-page-subtitle">Review and manage tournament registration requests</p>
+            </div>
+        </div>
+        
+        <!-- Admin Stats Bar -->
+        <div class="admin-stats-bar">
+            <div class="admin-stat-box">
+                <i class="fas fa-inbox"></i>
+                <div class="admin-stat-info">
+                    <span class="admin-stat-number">{{ object_list|length }}</span>
+                    <span class="admin-stat-label">Total Requests</span>
+                </div>
+            </div>
+<!--             <div class="admin-stat-box">
+                <i class="fas fa-check-circle"></i> -->
+            <!--    <div class="admin-stat-info">-->
+            <!--        <span class="admin-stat-number"></span>-->
+            <!--        <span class="admin-stat-label">Paid</span>-->
+            <!--    </div>-->
+            <!--</div>-->
+            <!--<div class="admin-stat-box">-->
+            <!--    <i class="fas fa-clock"></i>-->
+            <!--    <div class="admin-stat-info">-->
+            <!--        <span class="admin-stat-number">2</span>-->
+            <!--        <span class="admin-stat-label">Pending</span>-->
+            <!--    </div>-->
+            <!--</div>-->
+<!--             <div class="admin-stat-box">
+                <i class="fas fa-calendar-day"></i>
+                <div class="admin-stat-info">
+                    <span class="admin-stat-number"></span>
+                    <span class="admin-stat-label">Today</span>
+                </div></div></div>-->
+    </div>
+</section>
+
+<!-- Admin Content -->
+<section class="admin-content-section">
+    <div class="container">
+        <!-- Filter & Search Bar -->
+        <div class="admin-toolbar">
+            <div class="toolbar-left">
+                <div class="search-box-admin">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchRequests" placeholder="Search by tournament, user, or WhatsApp..." class="search-input-admin">
+                </div>
+            </div>
+            <div class="toolbar-right">
+                <button class="filter-btn-admin active" data-filter="all">
+                    <i class="fas fa-th"></i> All
+                </button>
+                <button class="filter-btn-admin" data-filter="paid">
+                    <i class="fas fa-check"></i> Paid
+                </button>
+                <button class="filter-btn-admin" data-filter="unpaid">
+                    <i class="fas fa-times"></i> Unpaid
+                </button>
+                <select class="sort-select-admin" id="sortRequests">
+                    <option value="recent">Most Recent</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="tournament">By Tournament</option>
+                </select>
+<!--                 <button class="btn-export-admin" id="exportBtn">
+                    <i class="fas fa-download"></i> Export
+                </button> -->
+            </div>
+        </div>
+
+        {% if object_list %}
+            <!-- Requests Table -->
+            <div class="admin-table-container">
+                <table class="admin-table" id="requestsTable">
+                    <thead>
+                        <tr>
+<!--                             <th class="col-select">
+                                <input type="checkbox" id="selectAll" class="checkbox-admin">
+                            </th> -->
+                            <th class="col-tournament">
+                                <i class="fas fa-trophy"></i> Tournament
+                            </th>
+                            <th class="col-user">
+                                <i class="fas fa-user"></i> User
+                            </th>
+                            <th class="col-whatsapp">
+                                <i class="fab fa-whatsapp"></i> WhatsApp
+                            </th>
+                            <th class="col-profile">
+                                <i class="fas fa-link"></i> Social Profile
+                            </th>
+                            <th class="col-status">
+                                <i class="fas fa-info-circle"></i> Status
+                            </th>
+                            <th class="col-actions">
+                                <i class="fas fa-cog"></i> Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for r in object_list %}
+                        <tr class="table-row-admin" data-status="{{ r.paid|yesno:'paid,unpaid' }}" data-tournament="{{ r.tournament.title|lower }}" data-user="{{ r.user.username|lower }}" data-whatsapp="{{ r.whatsapp_number }}">
+<!--                             <td class="col-select">
+                                <input type="checkbox" class="checkbox-admin row-checkbox" data-id="{ r.pk }">
+                            </td> -->
+                            <td class="col-tournament">
+                                <div class="tournament-cell">
+                                    <span class="tournament-name">{{ r.tournament.title }}</span>
+                                    <span class="tournament-game">{{ r.tournament.game_name }}</span>
+                                </div>
+                            </td>
+                            <td class="col-user">
+                                <div class="user-cell">
+                                    <div class="user-avatar-mini">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="user-info-mini">
+                                        <span class="user-name">{{ r.user.username }}</span>
+                                        <span class="user-email">{{ r.user.email|default:"No email" }}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="col-whatsapp">
+                                <a href="https://wa.me/{{ r.whatsapp_number }}" target="_blank" class="whatsapp-link">
+                                    <i class="fab fa-whatsapp"></i>
+                                    {{ r.whatsapp_number }}
+                                </a>
+                            </td>
+                            <td class="col-profile">
+                                <a href="{{ r.social_profile_url }}" target="_blank" class="profile-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    View Profile
+                                </a>
+                            </td>
+                            <td class="col-status">
+                                {% if r.paid %}
+                                    <span class="status-badge-admin status-paid-admin">
+                                        <i class="fas fa-check-circle"></i> Paid
+                                    </span>
+                                {% else %}
+                                    <span class="status-badge-admin status-unpaid-admin">
+                                        <i class="fas fa-clock"></i> Unpaid
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td class="col-actions">
+                                <div class="action-buttons">
+                                    <a href="{% url 'core:admin_request_detail' pk=r.pk %}" class="btn-action-admin btn-view" data-tooltip="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <button class="btn-action-admin btn-edit" data-tooltip="Edit" data-id="{{ r.pk }}">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-action-admin btn-delete" data-tooltip="Delete" data-id="{{ r.pk }}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Bulk Actions Bar -->
+            <div class="bulk-actions-bar" id="bulkActionsBar">
+                <div class="bulk-info">
+                    <span id="selectedCount">0</span> item(s) selected
+                </div>
+                <div class="bulk-buttons">
+                    <button class="btn-bulk-admin btn-mark-paid">
+                        <i class="fas fa-check"></i> Mark as Paid
+                    </button>
+                    <button class="btn-bulk-admin btn-mark-unpaid">
+                        <i class="fas fa-times"></i> Mark as Unpaid
+                    </button>
+                    <button class="btn-bulk-admin btn-bulk-delete">
+                        <i class="fas fa-trash"></i> Delete Selected
+                    </button>
+                </div>
+            </div>
+        {% else %}
+            <!-- Empty State -->
+            <div class="empty-state-admin">
+                <div class="empty-illustration-admin">
+                    <i class="fas fa-inbox"></i>
+                </div>
+                <h2 class="empty-title-admin">No Join Requests</h2>
+                <p class="empty-text-admin">There are currently no tournament join requests to review.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Quick Stats Card (Floating) -->
+<div class="quick-stats-card" id="quickStatsCard">
+    <button class="stats-toggle" id="statsToggle">
+        <i class="fas fa-chart-bar"></i>
+    </button>
+    <div class="stats-content" id="statsContent">
+        <h4>Quick Stats</h4>
+        <div class="stat-item-quick">
+            <span>Total Requests</span>
+            <strong>{{ object_list|length }}</strong>
+        </div>
+        <div class="stat-item-quick">
+            <span>Approval Rate</span>
+            <strong>85%</strong>
+        </div>
+        <div class="stat-item-quick">
+            <span>Avg Response Time</span>
+            <strong>2.5 hrs</strong>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/admin_requests.js' %}"></script>
+{% endblock %}

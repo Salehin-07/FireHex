@@ -1,0 +1,299 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load pwa %}
+
+{% block title %}Profile{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Profile Header -->
+<section class="profile-header-section">
+    <div class="container">
+        <div class="profile-banner">
+            <div class="banner-gradient"></div>
+            <div class="profile-header-content">
+                <!-- Avatar -->
+                <div class="profile-avatar-wrapper">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <button class="avatar-edit-btn" title="Change Avatar">
+                        <i class="fas fa-camera"></i>
+                    </button>
+                </div>
+                
+                <!-- User Info -->
+                <div class="profile-user-info">
+                    <h1 class="profile-username">{{ user.username }}</h1>
+
+                    <div class="profile-badges">
+                        <span class="user-badge">
+                            <i class="fas fa-star"></i> Member
+                        </span>
+                        <span class="user-badge">
+                            <i class="fas fa-calendar"></i> Joined {{ user.date_joined|date:"M Y" }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Profile Content -->
+<section class="profile-content-section">
+    <div class="container">
+        <div class="profile-grid">
+            <!-- Left Column - Profile Info & Stats -->
+            <!-- <div class="profile-main-column"> -->
+                <!-- Stats Cards -->
+<!--                 <div class="stats-cards-grid">
+                    <div class="stat-card-profile">
+                        <div class="stat-icon-wrapper stat-tournaments">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-content-profile">
+                            <h3 class="stat-number-profile">12</h3>
+                            <p class="stat-label-profile">Tournaments Joined</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card-profile">
+                        <div class="stat-icon-wrapper stat-wins">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <div class="stat-content-profile">
+                            <h3 class="stat-number-profile">3</h3>
+                            <p class="stat-label-profile">Tournaments Won</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card-profile">
+                        <div class="stat-icon-wrapper stat-pending">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content-profile">
+                            <h3 class="stat-number-profile">2</h3>
+                            <p class="stat-label-profile">Pending Applications</p>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- Account Information Card -->
+                <div class="profile-info-card">
+                    <div class="info-card-header">
+                        <h2 class="info-card-title">
+                            <i class="fas fa-user-circle"></i>
+                            Account Information
+                        </h2>
+<!--                         <button class="btn-edit-profile">
+                            <i class="fas fa-edit"></i> Edit Profile
+                        </button> -->
+                    </div>
+                    <div class="info-card-body">
+                        <div class="info-item-row">
+                            <div class="info-item-profile">
+                                <span class="info-label-profile">
+                                    <i class="fas fa-user"></i>
+                                    UID
+                                </span>
+                                <span class="info-value-profile">{{ user.username }}</span>
+                            </div>
+                            <div class="info-item-profile">
+                                <span class="info-label-profile">
+                                    <i class="fas fa-envelope"></i>
+                                    Name
+                                </span>
+                                <span class="info-value-profile">{{ user.first_name }} {{ user.last_name }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item-row">
+                            <div class="info-item-profile">
+                                <span class="info-label-profile">
+                                    <i class="fas fa-calendar-plus"></i>
+                                    Member Since
+                                </span>
+                                <span class="info-value-profile">{{ user.date_joined|date:"F d, Y" }}</span>
+                            </div>
+                            <div class="info-item-profile">
+                                <span class="info-label-profile">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    Last Login
+                                </span>
+                                <span class="info-value-profile">{{ user.last_login|date:"F d, Y" }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity Card -->
+                <!-- <div class="profile-info-card">
+                    <div class="info-card-header">
+                        <h2 class="info-card-title">
+                            <i class="fas fa-history"></i>
+                            Recent Activity
+                        </h2>
+                    </div>
+                    <div class="info-card-body">
+                        <div class="activity-timeline">
+                            <div class="activity-item">
+                                <div class="activity-icon activity-success">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p class="activity-title">Joined VALORANT Championship</p>
+                                    <span class="activity-time">2 days ago</span>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon activity-warning">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p class="activity-title">Won CS:GO Tournament</p>
+                                    <span class="activity-time">1 week ago</span>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon activity-info">
+                                    <i class="fas fa-user-check"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p class="activity-title">Profile Updated</p>
+                                    <span class="activity-time">2 weeks ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+ -->
+            <!-- Right Column - Quick Actions & Settings -->
+            <aside class="profile-sidebar-column">
+                <!-- Quick Actions Card -->
+                <div class="sidebar-card-profile">
+                    <div class="sidebar-card-header">
+                        <h3 class="sidebar-card-title">
+                            <i class="fas fa-bolt"></i>
+                            Quick Actions
+                        </h3>
+                    </div>
+                    <div class="sidebar-card-body">
+                        <a href="{% url 'core:tournament_list' %}" class="quick-action-link">
+                            <i class="fas fa-search"></i>
+                            <span>Browse Tournaments</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                        <a href="{% url 'core:my_applications' %}" class="quick-action-link">
+                            <i class="fas fa-file-alt"></i>
+                            <span>My Applications</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+<!--                         <button class="quick-action-link" id="editProfileBtn">
+                            <i class="fas fa-user-edit"></i>
+                            <span>Edit Profile</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </button> -->
+<!--                         <button class="quick-action-link" id="changePasswordBtn">
+                            <i class="fas fa-key"></i>
+                            <span>Change Password</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </button> -->
+                    </div>
+                </div>
+
+                <!-- Account Settings Card -->
+<!--                 <div class="sidebar-card-profile">
+                    <div class="sidebar-card-header">
+                        <h3 class="sidebar-card-title">
+                            <i class="fas fa-cog"></i>
+                            Settings
+                        </h3>
+                    </div>
+                    <div class="sidebar-card-body">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <i class="fas fa-bell"></i>
+                                <span>Email Notifications</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <i class="fas fa-envelope"></i>
+                                <span>Tournament Updates</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <i class="fas fa-user-secret"></i>
+                                <span>Private Profile</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+ -->
+                <!-- Logout Card -->
+                <div class="sidebar-card-profile logout-card">
+                    <div class="sidebar-card-body">
+                        <div class="logout-content">
+                            <div class="logout-icon">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </div>
+                            <div class="logout-info">
+                                <h4 class="logout-title">Sign Out</h4>
+                                <p class="logout-text">End your current session</p>
+                            </div>
+                        </div>
+                        <form action="{% url 'accounts:logout' %}" method="post" id="logoutForm">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-logout">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Help Card -->
+                <div class="sidebar-card-profile help-card">
+                    <div class="sidebar-card-body">
+                        <div class="help-icon-profile">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h4 class="help-title-profile">Need Help?</h4>
+                        <p class="help-text-profile">Contact our support team for assistance</p>
+                        <button class="btn-help-profile">
+                            <i class="fas fa-headset"></i>
+                            Contact Support
+                        </button>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/profile.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% load static auth_extras %}
+
+<nav id="mainNav" class="navbar">
+  <div class="container nav-container">
+    <!-- Logo -->
+    <a href="{% url 'core:tournament_list' %}" class="nav-logo">
+      <img src="{% static 'img/logo.png' %}" alt="AR" />
+      <span class="logo-text">AR</span>
+    </a>
+
+    <!-- Hamburger Menu -->
+    <button class="nav-toggle" aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Nav Links -->
+    <ul class="nav-menu">
+      <li><a href="{% url 'core:tournament_list' %}" class="active">Home</a></li>
+      {% if user.is_authenticated %}
+      <li><a href="{% url 'core:my_applications' %}">My_Tournaments</a></li>
+      <li><a href="{% url 'accounts:profile' %}">{{ user.username }}</a></li>
+      <form action="{% url 'accounts:logout' %}" method="post" style="display:inline;">
+      {% csrf_token %}
+        <li><button type="submit" class="btn btn-primary nav-btn">Logout</button></li>
+      </form>
+      {% else %}
+      <li style="background-color:#9cfcff;"><a href="{% url 'accounts:login' %}">Login</a></li>
+      <li style="background-color:#9cfcff;"><a href="{% url 'accounts:signup' %}">Signup</a></li>
+      {% endif %}
+      {% if user.is_authenticated %}
+      {% if user|admin_or_super %}
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle">Admin <i class="fas fa-chevron-down"></i></a>
+        <ul class="dropdown-menu">
+        {% if user|can_see %}
+          <li><a href="{% url 'core:admin_requests' %}">admin_requests</a></li>
+        {% endif %}
+          <li><a href="{% url 'core:admin_tournaments' %}">admin_tournaments</a></li>
+          <li><a href="">Help</a></li>
+        </ul>
+      </li>
+      {% endif %}
+      {% endif %}
+    </ul>
+  </div>
+</nav>

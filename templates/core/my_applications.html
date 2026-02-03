@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load pwa %}
+
+{% block title %}My Applications{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/my_applications.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="applications-header">
+    <div class="container">
+        <div class="header-content-apps">
+            <div class="header-icon-wrapper">
+                <i class="fas fa-file-alt"></i>
+            </div>
+            <div class="header-text">
+                <h1 class="page-title-apps">My Applications</h1>
+                <p class="page-subtitle-apps">Track and manage your tournament registrations</p>
+            </div>
+        </div>
+        
+        <!-- Stats Bar -->
+        <div class="stats-bar-apps">
+            <div class="stat-box-apps">
+                <i class="fas fa-clipboard-list"></i>
+                <div class="stat-info">
+                    <span class="stat-number-apps">{{ object_list|length }}</span>
+                    <span class="stat-label-apps">Total Applications</span>
+                </div>
+            </div>
+<!--             <div class="stat-box-apps">
+                <i class="fas fa-check-circle"></i>
+                <div class="stat-info">
+                    <span class="stat-number-apps">{{ object_list|length|add:"-1" }}</span>
+                    <span class="stat-label-apps">Paid</span>
+                </div>
+            </div>
+            <div class="stat-box-apps">
+                <i class="fas fa-hourglass-half"></i>
+                <div class="stat-info">
+                    <span class="stat-number-apps">1</span>
+                    <span class="stat-label-apps">Pending</span>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</section>
+
+<!-- Applications List -->
+<section class="applications-section">
+    <div class="container">
+        {% if object_list %}
+            <!-- Filter/Sort Bar -->
+            <div class="filter-bar-apps">
+                <div class="filter-left">
+                    <button class="filter-btn-apps active" data-filter="all">
+                        <i class="fas fa-th"></i> All
+                    </button>
+                    <button class="filter-btn-apps" data-filter="paid">
+                        <i class="fas fa-check"></i> Paid
+                    </button>
+                    <button class="filter-btn-apps" data-filter="pending">
+                        <i class="fas fa-clock"></i> Pending
+                    </button>
+                </div>
+                <div class="filter-right">
+                    <select class="sort-select-apps" id="sortApplications">
+                        <option value="recent">Most Recent</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="tournament">By Tournament Date</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Applications Grid -->
+            <div class="applications-grid">
+                {% for r in object_list %}
+                <article class="application-card" data-status="{{ r.paid|yesno:'paid,pending' }}" data-date="{{ r.created_at|date:'U' }}" data-tournament-date="{{ r.tournament.start_datetime|date:'U' }}">
+                    <!-- Card Header -->
+                    <div class="app-card-header">
+                        <div class="app-header-left">
+                            <h3 class="app-tournament-title">{{ r.tournament.title }}</h3>
+                            <span class="app-game-badge">
+                                <i class="fas fa-gamepad"></i>
+                                {{ r.tournament.game_name }}
+                            </span>
+                        </div>
+                        <div class="app-header-right">
+                            {% if r.paid %}
+                                <span class="app-status-badge status-paid">
+                                    <i class="fas fa-check-circle"></i> Paid
+                                </span>
+                            {% else %}
+                                <span class="app-status-badge status-pending">
+                                    <i class="fas fa-clock"></i> Pending Payment
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="app-card-body">
+                        <!-- Tournament Info -->
+                        <div class="app-info-row">
+                            <div class="app-info-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <div class="app-info-content">
+                                    <span class="app-info-label">Tournament Start</span>
+                                    <span class="app-info-value">{{ r.tournament.start_datetime|date:"M d, Y • g:i A" }}</span>
+                                </div>
+                            </div>
+                            <div class="app-info-item">
+                                <i class="fas fa-clock"></i>
+                                <div class="app-info-content">
+                                    <span class="app-info-label">Applied On</span>
+                                    <span class="app-info-value">{{ r.created_at|date:"M d, Y • g:i A" }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Status Section -->
+                        <div class="payment-section">
+                            {% if r.paid %}
+                                <div class="payment-success">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div class="payment-info">
+                                        <strong>Payment Confirmed</strong>
+                                        <span>You're all set for this tournament!</span>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="payment-pending">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <div class="payment-info">
+                                        <strong>Payment Processing</strong>
+                                        <span>Our Team will take Payment in a while. Please wait</span>
+                                    </div>
+<!--                                     <button class="btn-pay-now">
+                                        <i class="fas fa-credit-card"></i> Pay Now
+                                    </button> -->
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Credentials Section -->
+                        {% if r.paid %}
+                            {% if r.tournament.credentials %}
+                                <div class="credentials-section">
+                                    <div class="credentials-header-app">
+                                        <h4 class="credentials-title-app">
+                                            <i class="fas fa-key"></i>
+                                            Tournament Credentials
+                                        </h4>
+                                        <button class="btn-copy-cred" data-credentials="{{ r.tournament.credentials }}">
+                                            <i class="fas fa-copy"></i> Copy
+                                        </button>
+                                    </div>
+                                    <pre class="credentials-box">{{ r.tournament.credentials|linebreaksbr }}</pre>
+                                </div>
+                            {% else %}
+                                <div class="credentials-waiting">
+                                    <i class="fas fa-hourglass-half"></i>
+                                    <div class="waiting-info">
+                                        <strong>Credentials Pending</strong>
+                                        <span>Will be issued before the tournament starts</span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+
+                    <!-- Card Footer -->
+                    <div class="app-card-footer">
+                        <a href="{% url 'core:tournament_detail' pk=r.tournament.pk %}" class="btn-view-tournament">
+                            <i class="fas fa-eye"></i>
+                            <span>View Tournament</span>
+                        </a>
+                        <div class="app-actions">
+                            <button class="btn-action-icon" data-tooltip="Share">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+<!--                             <button class="btn-action-icon" data-tooltip="Download">
+                                <i class="fas fa-download"></i>
+                            </button> -->
+                        </div>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- Empty State -->
+            <div class="empty-state-apps">
+                <div class="empty-illustration">
+                    <i class="fas fa-inbox"></i>
+                </div>
+                <h2 class="empty-title-apps">No Applications Yet</h2>
+                <p class="empty-text-apps">You haven't applied to any tournaments. Browse available tournaments and join the competition!</p>
+                <a href="{% url 'core:tournament_list' %}" class="btn-browse-tournaments">
+                    <i class="fas fa-trophy"></i>
+                    <span>Browse Tournaments</span>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Quick Actions Floating Button (Optional) -->
+<div class="quick-actions-fab">
+    <button class="fab-main" id="fabMain">
+        <i class="fas fa-plus"></i>
+    </button>
+    <div class="fab-menu" id="fabMenu">
+        <a href="{% url 'core:tournament_list' %}" class="fab-action" data-tooltip="Browse Tournaments">
+            <i class="fas fa-search"></i>
+        </a>
+<!--         <button class="fab-action" data-tooltip="Filter Applications">
+            <i class="fas fa-filter"></i>
+        </button>
+        <button class="fab-action" data-tooltip="Export Data">
+            <i class="fas fa-file-export"></i>
+        </button> -->
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/my_applications.js' %}"></script>
+{% endblock %}
