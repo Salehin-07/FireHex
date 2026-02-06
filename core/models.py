@@ -35,8 +35,8 @@ class Tournament(models.Model):
 class TournamentJoinRequest(models.Model):
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='join_requests')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='join_requests')
-    whatsapp_number = models.CharField(max_length=32)
-    social_profile_url = models.URLField()
+    bkash_number = models.CharField(max_length=32)
+    transaction_id = models.CharField(max_length=64)
     paid = models.BooleanField(default=False)
     admin_handled_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='handled_requests')
     admin_handled_at = models.DateTimeField(null=True, blank=True)
@@ -67,3 +67,14 @@ class Ads(models.Model):
     
     def __str__(self):
         return self.title
+
+class Contact(models.Model):
+    bkash_number = models.IntegerField(null=True,blank=True)
+    whatsapp_number = models.IntegerField(null=True,blank=True)
+    discord_link = models.URLField(null=True,blank=True)
+    
+    class Meta:
+        verbose_name = "Contact"
+        verbose_name_plural = "Contact"
+
+

@@ -20,6 +20,17 @@
     </div>
 </div>
 
+<section class="tournament-header">
+    <div class="quick-info-card">
+      <h4 class="quick-info-title">Tournament Rule</h4>
+        <ul class="quick-info-list">
+          <li><i class="fas fa-check"></i>প্রথমে এই বিকাশ নাম্বারে entry fee পাঠান.</li>
+          <li><i class="fas fa-check"></i>Bkash Number: {% for cont in contact %}{{ cont.bkash_number }}/{% endfor %}</li>
+          <li><i class="fas fa-check"></i>তারপর নিচের ফর্মে bkash number এবং transaction id সাবমিট করুন </li>
+        </ul>
+    </div>
+</section>
+
 <!-- Tournament Header -->
 <section class="tournament-header">
     <div class="container">
@@ -199,11 +210,11 @@
                                 <div class="form-group-detail">
                                     <label class="form-label-detail">
                                         <i class="fab fa-whatsapp"></i>
-                                        WhatsApp Number
+                                        Bkash Number
                                     </label>
                                     <input 
                                         type="text" 
-                                        name="whatsapp_number" 
+                                        name="bkash_number" 
                                         class="form-input-detail" 
                                         required 
                                         pattern="\+?[0-9\-\s]{9,}" 
@@ -218,13 +229,13 @@
                                         Social Profile URL
                                     </label>
                                     <input 
-                                        type="url" 
-                                        name="social_profile_url" 
+                                        type="text" 
+                                        name="transaction_id" 
                                         class="form-input-detail" 
                                         required 
-                                        placeholder="https://facebook.com/username"
+                                        placeholder="8D31F5J7KL"
                                     >
-                                    <small class="form-hint">Facebook or Instagram profile link</small>
+                                    <small class="form-hint">The Transaction Id you paid by bikash.</small>
                                 </div>
 
                                 <button type="submit" class="btn-join-submit">

@@ -4,7 +4,7 @@ from . import views
 
 app_name = 'core'
 urlpatterns = [
-    path('', cache_page(60 * 15)(views.TournamentListView.as_view()), name='tournament_list'),
+    path('', views.TournamentListView.as_view(), name='tournament_list'),
     path('tournament/<uuid:pk>/', views.TournamentDetailView.as_view(), name='tournament_detail'),
     path('tournament/<uuid:pk>/join/', views.TournamentJoinCreateView.as_view(), name='tournament_join'),
     path('my/applications/', views.MyApplicationsView.as_view(), name='my_applications'),

@@ -102,10 +102,10 @@
                                 <i class="fas fa-user"></i> User
                             </th>
                             <th class="col-whatsapp">
-                                <i class="fab fa-whatsapp"></i> WhatsApp
+                                <i class="fab fa-whatsapp"></i> Bkash
                             </th>
                             <th class="col-profile">
-                                <i class="fas fa-link"></i> Social Profile
+                                <i class="fas fa-link"></i> Transaction ID
                             </th>
                             <th class="col-status">
                                 <i class="fas fa-info-circle"></i> Status
@@ -117,7 +117,7 @@
                     </thead>
                     <tbody>
                         {% for r in object_list %}
-                        <tr class="table-row-admin" data-status="{{ r.paid|yesno:'paid,unpaid' }}" data-tournament="{{ r.tournament.title|lower }}" data-user="{{ r.user.username|lower }}" data-whatsapp="{{ r.whatsapp_number }}">
+                        <tr class="table-row-admin" data-status="{{ r.paid|yesno:'paid,unpaid' }}" data-tournament="{{ r.tournament.title|lower }}" data-user="{{ r.user.username|lower }}" data-whatsapp="{{ r.bkash_number }}">
 <!--                             <td class="col-select">
                                 <input type="checkbox" class="checkbox-admin row-checkbox" data-id="{ r.pk }">
                             </td> -->
@@ -139,16 +139,13 @@
                                 </div>
                             </td>
                             <td class="col-whatsapp">
-                                <a href="https://wa.me/{{ r.whatsapp_number }}" target="_blank" class="whatsapp-link">
+                                <a href="https://wa.me/{{ r.bkash_number }}" target="_blank" class="whatsapp-link">
                                     <i class="fab fa-whatsapp"></i>
-                                    {{ r.whatsapp_number }}
+                                    {{ r.bkash_number }}
                                 </a>
                             </td>
                             <td class="col-profile">
-                                <a href="{{ r.social_profile_url }}" target="_blank" class="profile-link">
-                                    <i class="fas fa-external-link-alt"></i>
-                                    View Profile
-                                </a>
+                                <i class="fas fa-link"></i> {{ r.transaction_id }}
                             </td>
                             <td class="col-status">
                                 {% if r.paid %}

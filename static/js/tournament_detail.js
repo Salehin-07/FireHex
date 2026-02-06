@@ -5,7 +5,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize all functions
-    initFormValidation();
+    //initFormValidation();
     initAnimations();
     initStickyElements();
     initTooltips();
@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!joinForm) return;
         
         const whatsappInput = joinForm.querySelector('input[name="whatsapp_number"]');
-        const profileInput = joinForm.querySelector('input[name="social_profile_url"]');
         const submitBtn = joinForm.querySelector('.btn-join-submit');
         
         // Real-time WhatsApp validation
@@ -32,35 +31,16 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
-        // Real-time URL validation
-        if (profileInput) {
-            profileInput.addEventListener('input', function(e) {
-                validateURL(e.target);
-            });
-            
-            profileInput.addEventListener('blur', function(e) {
-                validateURL(e.target);
-            });
-        }
-        
         // Form submission
         joinForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
             const whatsappValue = whatsappInput ? whatsappInput.value.trim() : '';
-            const profileValue = profileInput ? profileInput.value.trim() : '';
             
             // Validate WhatsApp
             if (!validateWhatsAppNumber(whatsappValue)) {
                 showNotification('Please enter a valid WhatsApp number with country code (e.g., +8801234567890)', 'error');
                 whatsappInput.focus();
-                return false;
-            }
-            
-            // Validate URL
-            if (!validateProfileURL(profileValue)) {
-                showNotification('Please enter a valid profile URL (e.g., https://facebook.com/username)', 'error');
-                profileInput.focus();
                 return false;
             }
             
@@ -105,34 +85,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (number[0] !== '+' && isNaN(number[0])) return false;
         
         return true;
-    }
-    
-    // URL validation
-    function validateURL(input) {
-        const value = input.value.trim();
-        const isValid = validateProfileURL(value);
-        
-        if (value && !isValid) {
-            input.style.borderColor = '#ef4444';
-            showInputError(input, 'Enter a valid URL (https://...)');
-        } else {
-            input.style.borderColor = isValid ? '#16a34a' : '';
-            removeInputError(input);
-        }
-        
-        return isValid;
-    }
-    
-    function validateProfileURL(url) {
-        if (!url) return false;
-        
-        try {
-            const urlObj = new URL(url);
-            // Check if it's http or https
-            return urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
-        } catch (err) {
-            return false;
-        }
     }
     
     // Show input error

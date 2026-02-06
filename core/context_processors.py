@@ -1,4 +1,4 @@
-from .models import Ads
+from .models import Ads, Contact
 import random
 
 def active_ad(request):
@@ -30,4 +30,20 @@ def active_ad(request):
     
     return {
         'active_ad': None
+    }
+
+def contact_fetch(request):
+    try:
+        contact = Contact.objects.all()
+        
+        return {
+            'contact':contact,
+        }
+    except Contact.DoesNotExist:
+        pass
+    except Exception as e:
+        print(f"Error loading ad: {e}")
+    
+    return {
+      'contact':None,  
     }

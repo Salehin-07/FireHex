@@ -33,10 +33,25 @@ class TournamentDetailView(DetailView):
 class TournamentJoinCreateView(LoginRequiredMixin, CreateView):
     model = TournamentJoinRequest
     form_class = TournamentJoinForm
+    template_name = 'core/tournament_detail.html'  # Add this line
+
 
     def dispatch(self, request, *args, **kwargs):
         self.tournament = get_object_or_404(Tournament, pk=kwargs['pk'])
         return super().dispatch(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        # Add this method to pass tournament to template
+        ctx = super().get_context_data(**kwargs)
+        ctx['object'] = self.tournament  # Add tournament as 'object'
+        ctx['tournament'] = self.tournament  # Also add as 'tournament' for clarity
+        # Add the same context from TournamentDetailView
+        ctx['credentials_visible'] = False
+        if self.tournament.credentials:
+            if self.request.user.is_authenticated and self.tournament.join_requests.filter(user=self.request.user, paid=True).exists():
+                ctx['credentials_visible'] = True
+        ctx['join_request_count'] = self.tournament.join_requests.filter(paid=True).count()
+        return ctx
 
     def form_valid(self, form):
         # Ensure user hasn't already applied to same tournament

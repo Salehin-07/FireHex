@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Tournament, TournamentJoinRequest, TournamentCredentialLog, Ads
+from .models import Tournament, TournamentJoinRequest, TournamentCredentialLog, Ads, Contact
 
 @admin.register(Tournament)
 class TournamentAdmin(admin.ModelAdmin):
@@ -17,3 +17,5 @@ class CredentialLogAdmin(admin.ModelAdmin):
 @admin.register(Ads)
 class AdsAdmin(admin.ModelAdmin):
     list_display = ('title','is_active')
+
+admin.site.register(Contact)
