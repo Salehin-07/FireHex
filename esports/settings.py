@@ -106,7 +106,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 JAZZMIN_SETTINGS = {
     'site_title': 'E-Sports Admin',
     'site_header': 'E-Sports Admin',
+    "site_brand": "Fire Hex", 
+    'site_logo': 'img/logo.png',
     'welcome_sign': 'Manage tournaments and requests',
+    "custom_css": "admin/admin.css",  
+    "custom_js": "admin/admin.js", 
+    "show_sidebar": True,
 }
 
 LOGGING = DEFAULT_LOGGING
@@ -191,3 +196,5 @@ PWA_APP_SCREENSHOTS = [
 ]
 
 PWA_SERVICE_WORKER_PATH = BASE_DIR / 'sw.js'
+
+# admin page 
